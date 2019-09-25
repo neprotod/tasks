@@ -4,11 +4,17 @@
             Sort
         </button>
         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="#">By name</a>
-            <a class="dropdown-item" href="#">By e-mail</a>
-            <a class="dropdown-item" href="#">By state</a>
+            <a class="dropdown-item" href="<?=\Sys\Router::setQuery(['sort'=>'name'],"/front/show/1")?>">By name</a>
+            <a class="dropdown-item" href="<?=\Sys\Router::setQuery(['sort'=>'email'],"/front/show/1")?>">By e-mail</a>
+            <a class="dropdown-item" href="<?=\Sys\Router::setQuery(['sort'=>'compleate'],"/front/show/1")?>">By state</a>
         </div>
     </div>
+    <?php if(!\Sys\Router::getQuery("desc")):?>
+        <a class="btn btn-success" href="<?=\Sys\Router::setQuery(['sort'=>\Sys\Router::getQuery("sort"),"desc" => "true"],"/front/show/1")?>">Descending</a>
+    <?php else:?>
+        <a class="btn btn-success" href="<?=\Sys\Router::setQuery(['sort'=>\Sys\Router::getQuery("sort")],"/front/show/1")?>">Ascending</a>
+    <?php endif;?>
+    
 </div>
 
 <form class="card task create" method="post" action="<?=Sys\Router::getURI()?>">

@@ -10,7 +10,6 @@ use App\Models\Task;
 
 class Front{
     function show($page = 1){
-
         $data = [];
         $get = [];
         $task = new Task();

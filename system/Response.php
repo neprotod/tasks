@@ -29,4 +29,35 @@ class Response{
 		return $default;
 	}
 
+	/**
+	 * Привести к типу
+	 * 
+	 * @param mixed  проверяемая переменная
+	 * @param string значение по умолчанию
+	 * @return mixed
+	 */
+	public static function to_type($name = NULL, $type = NULL,$return = NULL){
+    	$val = $return;
+        
+    	if(!empty($name) OR $name === 0)
+    		$val = $name;
+
+    	if($type == 'string'  || $type == 'str')
+    		return strval(preg_replace('/[^\p{L}\p{Nd}\d\s_\-\.\%\s]/ui', '', $val));
+    		
+    	if($type == 'integer' || $type == 'int')
+    		return intval($val);
+
+    	if($type == 'boolean' || $type == 'bool')
+    		return !empty($val);
+        
+    	if($type == 'array' || $type == 'arr')
+    		return (is_array($val))?$val:array();
+        
+    	if($type == 'NULL')
+    		return NULL;
+
+    	return $val;
+    }
+
 }

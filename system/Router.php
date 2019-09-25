@@ -12,9 +12,16 @@ class Router{
 	/**
      * Образец класса
      * 
-     * @var object
+     * @var array
      */
 	protected static $request = [];
+
+	/**
+     * Массив с query string
+     * 
+     * @var array
+     */
+	protected static $query = [];
 	
 	/**
      * Текущий контроллер
@@ -54,8 +61,22 @@ class Router{
 	 * @return void
 	 */
     private function __construct(){
+		$parse_url = parse_url($_SERVER['REQUEST_URI']);
+
 		self::$request["uri"] = $_SERVER['REQUEST_URI'];
-		self::$request["path"] = parse_url($_SERVER['REQUEST_URI'])['path'];
+		self::$request["path"] = $parse_url['path'];
+
+
+		// Парсим строку запроса
+		if(isset($parse_url['query'])){
+			$query = $parse_url['query'];
+			$query = explode('&',$query);
+
+			foreach($query as $val){
+				$val = explode("=",$val);
+				self::$query[$val[0]] = $val[1];
+			}
+		}
 
 		$request = self::$request["path"];
 
@@ -115,6 +136,48 @@ class Router{
 	 */
 	public static function getURI(){
 		return self::$request["uri"];
+	}
+	/**
+	 * Получить значение query string
+	 * @param string имя запроса
+	 * @param string значение по умолчанию
+	 * @return mixed
+	 */
+	public static function getQuery($key,$default = null){
+		return isset(self::$query[$key]) 
+			?self::$query[$key]
+			:$default;
+	}
+	/**
+	 * Получить значение query string
+	 * @param string имя запроса
+	 * @param string значение по умолчанию
+	 * @return mixed
+	 */
+	public static function getQueryString(){
+		$query = '?';
+		foreach(self::$query as $key => $value){
+			$query .= $key .'='.$value.'&';
+		}
+		return trim($query,"&");
+	}
+	/**
+	 * Задать значение query string
+	 * 
+	 * @param  array ключ имя запроса
+	 * @param string ссылка которая получит строку запроса, если не задать будет текущий адрес
+	 * @return string
+	 */
+	public static function setQuery($params,$uri = false){
+		if(!$uri){
+			$uri = self::$request["path"];
+		}
+		$query = "?";
+		foreach($params as $key => $param){
+			if($param)
+				$query .= $key .'='.$param.'&';
+		}
+		return $uri.trim($query,"&");
 	}
 
 }

@@ -95,7 +95,20 @@ class DB{
      * @return array 
      */
     public static function like($sql,$params = array()){
-        return self::init()->prepare($sql,$params,true)->fetchAll(\PDO::FETCH_ASSOC);
+        $driver = self::init()->connect();
+        $prepare = $driver->prepare($sql);
+
+        foreach($params as $key => $param){
+            if(is_int($param)){
+                $prepare->bindValue($key, $param, \PDO::PARAM_INT);
+            }else{
+                $prepare->bindValue($key, $param, \PDO::PARAM_STR);
+            }
+            
+        }
+        $prepare->execute();
+
+        return $prepare->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**
@@ -117,18 +130,13 @@ class DB{
      * @param bool   нужно ли использовать bindValue
      * @return object
      */
-     protected function prepare($sql, $params, $int = false){
+     protected function prepare($sql, $params){
         $driver = self::init()->connect();
 
         $prepare = $driver->prepare($sql);
-        if(!$int){
-            $prepare->execute($params);
-        }else{
-            foreach($params as $key => $param){
-                $prepare->bindValue($key, $param, \PDO::PARAM_INT);
-            }
-            $prepare->execute();
-        }
+ 
+        $prepare->execute($params);
+
         return $prepare;
      }
     

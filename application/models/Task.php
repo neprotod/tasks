@@ -5,6 +5,8 @@ namespace App\Models;
 use Sys\View;
 use Sys\DB;
 use Sys\Core;
+use Sys\Response;
+use Sys\Router;
 class Task{
     /**
      * Берем страницу с задачами
@@ -33,10 +35,30 @@ class Task{
 
         $data["pagination"] = $this->pagination($page + 1,$count, $pagination);
 
+        $sql_params = [];
+        $sql = "SELECT id, name, email, task, `create`, edit, compleate 
+                FROM tasks"; 
+        
+        
+        // Делаем сортировку
+        if($sort = Router::getQuery("sort")){
+            $sort = Response::to_type($sort,"string");
+            $sql .= " ORDER BY $sort";
+            
+            if(Router::getQuery("desc")){
+                $sql .= " DESC";
+            }
+            
+        }
+        
+        // Добавляем лимит
+        $sql .= " LIMIT :step, :pagination";
+
+        $sql_params[":pagination"] = $pagination;
+        $sql_params[":step"] = $step;
+        
         // Берем данные из базы
-        $data["tasks"] = DB::like("SELECT id, name, email, task, `create`, edit, compleate 
-                                FROM tasks 
-                                LIMIT :step, :pagination",[":pagination" => $pagination,":step"=>$step],true);
+        $data["tasks"] = DB::like($sql,$sql_params);
         
         
         return $data;
