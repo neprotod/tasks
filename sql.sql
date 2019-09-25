@@ -49,5 +49,6 @@ CREATE TABLE IF NOT EXISTS tasks
     task TEXT NOT NULL COMMENT 'Задача',
     `create` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Время создания',
     edit INT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '0 = не редактировано, 1 = редактировано',
+    compleate INT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '0 = не закончено, 1 = закончено',
     PRIMARY KEY (id)
 )ENGINE = INNODB;

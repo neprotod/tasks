@@ -9,6 +9,12 @@ class Router{
      * @var object
      */
 	protected static $_init;
+	/**
+     * Образец класса
+     * 
+     * @var object
+     */
+	protected static $request = [];
 	
 	/**
      * Текущий контроллер
@@ -48,7 +54,10 @@ class Router{
 	 * @return void
 	 */
     private function __construct(){
-		$request = parse_url($_SERVER['REQUEST_URI'])['path'];
+		self::$request["uri"] = $_SERVER['REQUEST_URI'];
+		self::$request["path"] = parse_url($_SERVER['REQUEST_URI'])['path'];
+
+		$request = self::$request["path"];
 
 		if($request == '/')
 			$request = '';
@@ -97,6 +106,15 @@ class Router{
 			// Ошибка 404
 			exit("Ошибка 404");
 		}
+	}
+
+	/**
+	 * Получить весь адрес 
+	 * 
+	 * @return string
+	 */
+	public static function getURI(){
+		return self::$request["uri"];
 	}
 
 }

@@ -65,12 +65,37 @@ class DB{
 	}
 
     /**
-     * Запросы типа SELECT
+     * Запросы типа SELECT, один запрос
      * 
      * @return array 
      */
     public static function select($sql,$params = array()){
+        $result = self::init()->prepare($sql,$params)->fetch();
+        if(!empty($result)){
+            return current($result);
+        }
+        return $result;
+    }
+    /**
+     * Запросы типа SELECT, взять все
+     * 
+     * @param string запрос
+     * @param array  массив
+     * @param bool   нужно ли использовать bindValue
+     * @return array 
+     */
+    public static function selects($sql,$params = array()){
         return self::init()->prepare($sql,$params)->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    /**
+     * Запросы с LIKE, взять все
+     * 
+     * @param string запрос
+     * @param array  параметры
+     * @return array 
+     */
+    public static function like($sql,$params = array()){
+        return self::init()->prepare($sql,$params,true)->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**
@@ -82,20 +107,28 @@ class DB{
         $driver = self::init()->connect();
 
 
-        return self::init()->prepare($sql,$params)->exec();
+        return self::init()->prepare($sql,$params);
     }
 
     /**
      * Подготовка данных
-     * 
+     * @param string запрос
+     * @param array  параметры
+     * @param bool   нужно ли использовать bindValue
      * @return object
      */
-     protected function prepare($sql, $params){
+     protected function prepare($sql, $params, $int = false){
         $driver = self::init()->connect();
 
         $prepare = $driver->prepare($sql);
-        $prepare->execute($params);
-
+        if(!$int){
+            $prepare->execute($params);
+        }else{
+            foreach($params as $key => $param){
+                $prepare->bindValue($key, $param, \PDO::PARAM_INT);
+            }
+            $prepare->execute();
+        }
         return $prepare;
      }
     
