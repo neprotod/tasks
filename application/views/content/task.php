@@ -46,7 +46,7 @@
             <div class="col">
                 <span class="info">Task:</span>
                 <textarea class="form-control" name="task" rows="3"><?=\Sys\Response::post("task")?></textarea>
-                <div class="error text-danger"><?=isset($errors["task"])?$errors["email"]:''?></div>
+                <div class="error text-danger"><?=isset($errors["task"])?$errors["task"]:''?></div>
                 <button id="task_submit" type="submit" class="btn btn-success">Send</button>
             </div>
         </div>
