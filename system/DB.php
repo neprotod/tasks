@@ -72,7 +72,8 @@ class DB{
     public static function select($sql,$params = array()){
         $result = self::init()->prepare($sql,$params)->fetch();
         if(!empty($result)){
-            return current($result);
+            return $result;
+            //return current($result);
         }
         return $result;
     }

@@ -58,6 +58,21 @@ class Response{
     		return NULL;
 
     	return $val;
-    }
+	}
+	
+	/**
+	 * Получить сообщение
+	 * 
+	 * @return mixed
+	 */
+
+	public static function message(){
+		$message = null;
+		if(isset($_SESSION['message'])){
+			$message = $_SESSION['message'];
+			unset($_SESSION['message']);
+		}
+		return $message;
+	}
 
 }

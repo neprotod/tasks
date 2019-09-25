@@ -3,6 +3,8 @@
 // Отображение ошибок
 error_reporting(E_ALL | E_STRICT);
 
+session_start();
+
 // Расширение файла по умолчанию
 define('EXT', '.php');
 

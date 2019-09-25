@@ -8,3 +8,29 @@
 #task_submit{
     margin-top:10px;
 }
+
+#login{
+    margin:auto;
+    margin-top:100px;
+    max-width:300px;
+}
+
+.message{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.check{
+    width:61px;
+    height:48px;
+    background:url("/media/img/check.png") no-repeat;
+}
+.check.disable{
+    visibility:hidden;
+}
+
+.task.admin label{
+    display:block;
+}
+.task.admin .form-check{
+    margin-bottom:0;
+}

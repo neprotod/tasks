@@ -30,8 +30,7 @@ class Task{
         $step = $pagination * $page;
 
         // Для пагинации
-        $count = DB::select("SELECT count(*) FROM tasks");
-
+        $count = DB::select("SELECT count(*) FROM tasks")[0];
 
         $data["pagination"] = $this->pagination($page + 1,$count, $pagination);
 
@@ -102,7 +101,71 @@ class Task{
                                                     ":task" =>$task,
                                                     ]);
         
-        return [];
+        
+        // Делаем редирект
+        Router::redirect(null,301,"Task added");
+    }
+    /**
+     * Редактирование задачи
+     * 
+     * @return void
+     */
+    function edit(){
+        $post = $_POST;
+
+        $update = [];
+        $data = [];
+        $data['id'] = htmlentities($post["id"]);
+        $data['name'] = htmlentities($post["name"]);
+        $data['email'] = htmlentities($post["email"]);
+        $data['task'] = htmlentities($post["task"]);
+        $compleate = Response::isset($post["compleate"],0);
+
+        $task = DB::selects("SELECT id, name, email, task, compleate FROM tasks WHERE id = :id",[':id' => $data['id']]);
+
+        $task = $task[0];
+        if($compleate != $task['compleate']){
+            $update["compleate"] = $compleate;
+            unset($task['compleate']);
+        }
+
+        $edit = false;
+        
+        
+        foreach($data as $key => $value){
+            if($task[$key] != $value){
+                $edit = true;
+                $update[$key] = $value;
+            }
+        }
+        if(empty($update)){
+            return false;
+        }
+        if($edit){
+            $update["edit"] = 1;
+        }
+
+        $field = '';
+        $params = [];
+        foreach($update as $key => $value){
+                $edit = true;
+                $field .= $key."=".':'.$key.',';
+                $params[':'.$key] = $value;
+        }
+
+        $field = trim($field,',');
+        
+        $params["id"] = $task['id'];
+
+        // Сохраняем результат
+        DB::query("UPDATE tasks
+                          SET $field
+                          WHERE id = :id",$params);
+        
+        
+        
+        // Делаем редирект
+        Router::redirect(null,301,"Task update");
     }
 
     /**

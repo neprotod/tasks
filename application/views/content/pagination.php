@@ -9,7 +9,7 @@ if($pagination["end"] != 1):
         </li>
     <?php else:?>
         <li class="page-item">
-            <a class="page-link" href="/front/show/<?=$pagination["current"] - 1?>">Previous</a>
+            <a class="page-link" href="<?=$url.($pagination["current"] - 1).\Sys\Router::getQueryString() ?>">Previous</a>
         </li>
     <?php endif;?>
     <?php for($i = $pagination["start"];$i <= $pagination["end"];$i++):?>
@@ -22,7 +22,7 @@ if($pagination["end"] != 1):
             </li>
         <?php else:?>
             <li class="page-item">
-                <a class="page-link" href="/front/show/<?=$i?>"><?=$i?></a>
+                <a class="page-link" href="<?=$url.$i . \Sys\Router::getQueryString()?>"><?=$i?></a>
             </li>
         <?php endif;?>
     <?php endfor;?>
@@ -32,7 +32,7 @@ if($pagination["end"] != 1):
         </li>
     <?php else:?>
         <li class="page-item">
-            <a class="page-link" href="/front/show/<?=$pagination["current"] + 1?>">Next</a>
+            <a class="page-link" href="<?=$url.($pagination["current"] + 1) . \Sys\Router::getQueryString()?>">Next</a>
         </li>
     <?php endif;?>
   </ul>

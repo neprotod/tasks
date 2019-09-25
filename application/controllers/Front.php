@@ -5,12 +5,15 @@ namespace App\Controllers;
 use Sys\View;
 use Sys\DB;
 use Sys\Core;
+use Sys\Response;
 use App\Models\Task;
 
 
 class Front{
     function show($page = 1){
-        $data = [];
+        $data = [
+            "title" => "Task list",
+        ];
         $get = [];
         $task = new Task();
 
@@ -21,9 +24,12 @@ class Front{
 
         // Берем данные о странице
         $get += $task->get($page);
-
+        $get["url"] = '/front/show/';
         $get["pagination"] = View::render("content.pagination", $get);
         
+        //Проверяем есть ли сообщения удачного завершения
+        $get["message"] = Response::message();
+
         $data["content"] = View::render("content.task",$get);
 
 

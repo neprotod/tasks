@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
 
+    <title><?=$title?></title>
     <link href="/media/bootstrap/css/bootstrap-reboot.css" rel="stylesheet" />
     <link href="/media/bootstrap/css/bootstrap.css" rel="stylesheet" />
     <link href="/media/css/common.css" rel="stylesheet" />
@@ -16,9 +17,15 @@
     <header >
         <div class="container-fluid">
             <div class="container d-flex flex-row">
-                <h1 class="flex-grow-1">Tasks list</h1>
+                <h1 class="flex-grow-1"><?=$title?></h1>
                 <div>
-                    <a class="btn btn-info" href="#">Login</a>
+                    <?php if(isset($_SESSION["guard"])):?>
+                        <a class="btn btn-info" href="/admin/logout">logout</a>
+                    <?php else:?>
+                        <a class="btn btn-info" href="/admin/login">Login</a>
+                    <?php endif;?>
+
+                    
                 </div>
             </div>
         </div>

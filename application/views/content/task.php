@@ -16,7 +16,11 @@
     <?php endif;?>
     
 </div>
-
+<?php if(isset($message)):?>
+<div class="alert alert-success message" role="alert">
+    <?=$message?>
+</div>
+<?php endif;?>
 <form class="card task create" method="post" action="<?=Sys\Router::getURI()?>">
     <div class="card-header">
         <div class="row">
@@ -56,6 +60,11 @@
             <div class="col-3">
                 <?=$task['create']?>
             </div>
+            <div class="col">
+                <?php if($task["edit"]):?>
+                    Edited by admin
+                <?php endif;?>
+            </div>
         </div>
     </div>
     <div class="card-body">
@@ -74,7 +83,9 @@
                 <?=$task['task']?>
             </div>
             <div class="col-1">
-                
+                <?php if($task["compleate"]):?>
+                    <div class="check"></div>
+                <?php endif;?>
             </div>
         </div>
     </div>

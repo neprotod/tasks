@@ -155,6 +155,8 @@ class Router{
 	 * @return mixed
 	 */
 	public static function getQueryString(){
+		if(empty($_GET))
+			return '';
 		$query = '?';
 		foreach(self::$query as $key => $value){
 			$query .= $key .'='.$value.'&';
@@ -172,12 +174,35 @@ class Router{
 		if(!$uri){
 			$uri = self::$request["path"];
 		}
-		$query = "?";
+		$query = "";
 		foreach($params as $key => $param){
 			if($param)
 				$query .= $key .'='.$param.'&';
 		}
+		if(!empty($query))
+			$query = "?" . $query;
 		return $uri.trim($query,"&");
 	}
+
+	/**
+	 * Редирект
+	 * 
+	 * @param линк
+	 * @param код перенаправления
+	 * @param сообщение
+	 * @return void
+	 */
+
+	public static function redirect($url = null,$code = 301, $message = null){
+		if(!$url){
+			$url = self::getURI();
+		}
+		if(!empty($message)){
+			$_SESSION['message'] = $message;
+		}
+		header("Location: ".$url,$code);
+        exit;
+	}
+	
 
 }
