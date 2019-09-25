@@ -46,7 +46,7 @@ class Admin{
     */
     public function tasks($page = 1){
         if(!isset($_SESSION['guard'])){
-            Router::redirect("/",301);
+            Router::redirect("/admin/login",301);
         }
         $data = [
             "title" => "Administration",
