@@ -35,18 +35,18 @@
                 <div class="user_name">
                     <span class="info">Name:</span>
                     <input type="text" name="name" class="form-control" placeholder="Name" value="<?=\Sys\Response::post("name")?>">
-                    <div class="error text-danger"><?=\Sys\Response::isset($errors["name"])?></div>
+                    <div class="error text-danger"><?=isset($errors["name"])?$errors["name"]:''?></div>
                 </div>
                 <div class="user_email">
                     <span class="info">E-mail:</span>
                     <input type="email" name="email" class="form-control" placeholder="Enter email" value="<?=\Sys\Response::post("email")?>">
-                    <div class="error text-danger"><?=\Sys\Response::isset($errors["email"])?></div>
+                    <div class="error text-danger"><?=isset($errors["email"])?$errors["email"]:''?></div>
                 </div>
             </div>
             <div class="col">
                 <span class="info">Task:</span>
                 <textarea class="form-control" name="task" rows="3"><?=\Sys\Response::post("task")?></textarea>
-                <div class="error text-danger"><?=\Sys\Response::isset($errors["task"])?></div>
+                <div class="error text-danger"><?=isset($errors["task"])?$errors["email"]:''?></div>
                 <button id="task_submit" type="submit" class="btn btn-success">Send</button>
             </div>
         </div>

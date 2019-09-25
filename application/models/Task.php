@@ -119,7 +119,7 @@ class Task{
         $data['name'] = htmlentities($post["name"]);
         $data['email'] = htmlentities($post["email"]);
         $data['task'] = htmlentities($post["task"]);
-        $compleate = Response::isset($post["compleate"],0);
+        $compleate = isset($post["compleate"])?$post["compleate"]:0;
 
         $task = DB::selects("SELECT id, name, email, task, compleate FROM tasks WHERE id = :id",[':id' => $data['id']]);
 

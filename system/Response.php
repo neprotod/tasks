@@ -16,20 +16,6 @@ class Response{
 	}
 
 	/**
-	 * Проверить на существование и вернуть значение
-	 * 
-	 * @param mixed  проверяемая переменная
-	 * @param string значение по умолчанию
-	 * @return mixed
-	 */
-	public static function isset(&$test,$default = null){
-		if(isset($test)){
-			return $test;
-		}
-		return $default;
-	}
-
-	/**
 	 * Привести к типу
 	 * 
 	 * @param mixed  проверяемая переменная

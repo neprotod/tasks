@@ -19,8 +19,8 @@ class User{
 
 
 
-        $login = Response::isset($_POST["login"]);
-        $pass = Response::isset($_POST["pass"]);
+        $login = isset($_POST["login"])?$_POST["login"]:'';
+        $pass = isset($_POST["pass"])?$_POST["pass"]:'';
 
         if(empty($login)){
             $errors["login"] = "Empty login";
