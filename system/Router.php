@@ -49,6 +49,11 @@ class Router{
 	 */
     private function __construct(){
 		$request = parse_url($_SERVER['REQUEST_URI'])['path'];
+
+		if($request == '/')
+			$request = '';
+		
+
 		$splits = explode('/', trim($request,'/'));
 		//Controller
 		$this->controller = "App\\Controllers\\";

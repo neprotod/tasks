@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class First{
+class Front{
     function show(){
         
     }

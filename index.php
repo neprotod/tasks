@@ -26,13 +26,12 @@ define('CONFPATH', realpath(ROOT.'config').DIRECTORY_SEPARATOR);
 // Загружаем ядро
 require SYSPATH.'/Core'.EXT;
 
-Sys\Core::init([CONFPATH.'config.php']);
-
 spl_autoload_register(array('Sys\Core', 'autoload'));
+
+Sys\Core::init([CONFPATH.'config.php']);
 
 //Подключаем роутер
 $router = Sys\Router::init();
-
 
 echo $router->route();
 
